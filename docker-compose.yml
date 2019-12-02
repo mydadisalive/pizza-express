@@ -1,15 +1,16 @@
 version: '3'
 services:
   app:
+    env_file: .env
     build: .
     volumes:
-    - .:/usr/src/app
-    image: mydadisalive/pizza-express:latest
+      - .:/usr/src/app
+    image: "mydadisalive/pizza-express:${VER}"
     ports:
-      - "8081:3000"
+      - "$PORT:3000"
     links:
       - redis
-    container_name: pizza-express
+    container_name: "${IMAGE}"
     environment:
       - REDIS_URL=redis://redis
       - NODE_ENV=development
