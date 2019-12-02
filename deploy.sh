@@ -39,7 +39,7 @@ function monitor()
 echo "==========="
 echo "= monitor ="
 echo "==========="
-curl "http://localhost:$PORT"
+[[ `curl -sL -w "%{http_code}\\n" "http://localhost:$PORT" -o /dev/null` == "200" ]] && echo "curl ok" || echo "curl failed" && exit 1 
 }
 
 function push()
