@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    build: .
+    volumes:
+    - .:/usr/src/app
+    image: mydadisalive/pizza-express:latest
+    ports:
+      - "8081:3000"
+    links:
+      - redis
+    container_name: pizza-express
+    environment:
+      - REDIS_URL=redis://redis
+      - NODE_ENV=development
+      - PORT=3000
+    command:
+      sh -c 'npm i && node server.js'
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    expose:
+      - 6379
+
+
+
+
