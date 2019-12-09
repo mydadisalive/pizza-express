@@ -5,7 +5,7 @@ services:
     build: .
     volumes:
       - .:/usr/src/app
-    image: "mydadisalive/pizza-express:${VER}"
+    image: "mydadisalive/pizza-express:$VER"
     ports:
       - "$PORT:3000"
     links:
@@ -16,7 +16,7 @@ services:
       - NODE_ENV=development
       - PORT=3000
     command:
-      sh -c 'npm i && node server.js'
+        sh -c 'npm i && npm install --save body-parser && node server.js'
   redis:
     image: "redis:alpine"
     container_name: redis

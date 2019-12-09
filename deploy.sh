@@ -15,6 +15,8 @@ echo "= build ="
 echo "========="
 docker-compose build 
 docker tag "${USER}/${IMAGE}:${VER}" "${USER}/${IMAGE}:latest"
+docker-compose up -d
+sleep 5
 }
 
 function test_app()
@@ -22,7 +24,7 @@ function test_app()
 echo "========"
 echo "= test ="
 echo "========"
-npm test
+docker exec -it pizza-express npm test
 }
 
 function deploy()
@@ -30,16 +32,15 @@ function deploy()
 echo "=========="
 echo "= deploy ="
 echo "=========="
-docker-compose up -d
-sleep 5
 }
 
 function monitor()
 {
+sleep 5
 echo "==========="
 echo "= monitor ="
 echo "==========="
-[[ `curl -sL -w "%{http_code}\\n" "http://localhost:$PORT" -o /dev/null` == "200" ]] && echo "curl ok" || echo "curl failed" && exit 1 
+[[ `curl -sL -w "%{http_code}\\n" "http://localhost:$PORT" -o /dev/null` == "200" ]] && echo "curl ok" || ( echo "curl failed" && exit 1 )
 }
 
 function push()
